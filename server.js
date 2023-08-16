@@ -12,7 +12,7 @@ app.use(express.json());
 
 const warehouseRoutes = require('./routes/warehouses');
 
-app.use('/api/warehouses', warehouseRoutes);
+app.use('/warehouses', warehouseRoutes);
 
 
 const PORT = process.env.PORT || 8080;
