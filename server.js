@@ -6,16 +6,14 @@ const knexConfig = require('./knexfile');
 require('dotenv').config();
 
 const app = express();
+const routes = require("./routes/index");
 
 app.use(cors());
 app.use(express.json());
 
-const warehouseRoutes = require('./routes/warehouses');
+app.use("/", routes);
 
-app.use('/warehouses', warehouseRoutes);
-
-
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT ||5050;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
