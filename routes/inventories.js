@@ -1,43 +1,4 @@
-/*
-Create an API on the back-end using Express and Express Router to allow for the creation of  a new inventory item attached to a given warehouse. All details should come from the front-end.
 
-New data should be inserted into your database using knex.
-
-All request body data needs to have validation. All values are required (non-empty). For incorrect/incomplete data, the correct error response needs to be sent (with status code and message).
-
-POST /api/inventories
-
-Request body example:
-
-{
-  "warehouse_id": "bfc9bea7-66f1-44e9-879b-4d363a888eb4",
-  "item_name": "Paper Towels",
-  "description": "Made out of military-grade synthetic materials, these paper towels are highly flammable, yet water resistant, and easy to clean.",
-  "category": "Gear",
-  "status": "Out of Stock",
-  "quantity": "0"
-}
-
-Response returns 400 if unsuccessful because of missing properties in the request body
-
-Response returns 400 if the warehouse_id value does not exist in the warehouses table
-
-Response returns 400 if the quantity is not a number
-
-Response returns 201 if successful
-
-Response body example: 
-
-{
-  "id": "71870fd2-ede3-4116-a5ca-632ae2aadc32",
-  "warehouse_id": "bfc9bea7-66f1-44e9-879b-4d363a888eb4",
-  "item_name": "Paper Towels",
-  "description": "Made out of military-grade synthetic materials, these paper towels are highly flammable, yet water resistant, and easy to clean.",
-  "category": "Gear",
-  "status": "Out of Stock",
-  "quantity": 0
-}
-*/
 
 const express = require("express");
 const router = express.Router();
