@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const knex = require("knex")(require("../knexfile").development);
 const { warehouseExistsById } = require("../utils/warehouseExistsById");
+const { inventoryExistsById } = require("../utils/inventoryExistsById");
 
 router.use(express.json());
 
@@ -54,6 +55,23 @@ router.post("/", async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    if (!(await inventoryExistsById(id))) {
+      res.status(404).json({ error: "Inventory ID not found!" });
+    } else {
+      const rowsAffected = await knex("inventories").where("id", id).delete();
+      if (rowsAffected === 0)
+        throw new Error(`Failed to delete inventory ID ${id}`);
+      else res.sendStatus(204);
+    }
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });

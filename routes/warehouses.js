@@ -114,4 +114,23 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+router.delete("/:id", async (req, res) => {
+  const warehouseId = req.params.id;
+
+  try {
+    const result = await knex("warehouses").where({ id: req.params.id }).del();
+
+    if (result === 0) {
+      return res.status(400).json({
+        message: `Warehouse with ID: ${req.params.id} to be deleted not found.`,
+      });
+    }
+
+    res.status(204).send();
+  } catch (error) {
+    console.error("Error deleting warehouse", error);
+    res.status(500).json({ message: "Unable to delete user" });
+  }
+});
+
 module.exports = router;
