@@ -1,9 +1,9 @@
 const knexConfig = require('../knexfile').development; 
 const knex = require('knex')(knexConfig);
 
-const warehouseExistsById = async (id) => {
+const inventoryExistsById = async (id) => {
     try {
-        const count = await knex("warehouses")
+        const count = await knex("inventories")
             .where("id", id)
             .count("id as count")
             .first()
@@ -14,4 +14,4 @@ const warehouseExistsById = async (id) => {
     }
 };
 
-module.exports = { warehouseExistsById };
+module.exports = { inventoryExistsById };
