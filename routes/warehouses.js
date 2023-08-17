@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-
 const knex = require("knex")(require("../knexfile").development);
 
 router.use(express.json());
@@ -85,7 +84,6 @@ router.get("/:id", async (req, res) => {
 
   try {
     const warehouse = await knex("warehouses")
-      .select("*")
       .where("id", warehouseId)
       .first();
 
