@@ -8,9 +8,12 @@
 .DS_Store
 .env
 
+
 npm-debug.log*
 
 #Packages
 /BrainFlix*
 /InStock*
 
+#VSCODE SETTINGS
+.vscode
