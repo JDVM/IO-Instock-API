@@ -9,7 +9,16 @@ router.use(express.json());
 require("dotenv").config();
 const PORT = process.env.PORT || 8080;
 
+router.get("/", async (_req, res) => {
+  
+  try {
+    const warehouses = await knex("warehouses")
 
+      res.status(200).json(warehouses);
+    } catch (error) {
+      console.error('Error retrieving warehouses', error);
+      res.status(500).json({ error: "Internal server error" });
+    }
 
 router.put('/:id', async (req, res) => {
     const { id } = req.params;
@@ -72,19 +81,6 @@ router.put('/:id', async (req, res) => {
       }
     });
     
-
-
-
-
-
-
-
-
-router.get("/", async (req, res) => {
-  console.log(req.body);
-  res.status(200).json({ message: "This is warehouses!" });
-});
-
 router.get("/:id", async (req, res) => {
   const warehouseId = req.params.id;
 
