@@ -99,7 +99,7 @@ router.get("/:id", async (req, res) => {
     }
 
     const warehouseInvetory = await knex("inventories")
-      // .select("item_name", "category", "status", "quantity")
+      .select("item_name", "category", "status", "quantity")
       .where("warehouse_id", warehouseId);
 
     if (!warehouseInvetory) {
