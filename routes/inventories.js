@@ -59,6 +59,24 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  const inventoryId = req.params.id;
+  try {
+    const inventory = await knex("inventories")
+      .where("id", inventoryId)
+      .first();
+
+    if (!inventory) {
+      return res.status(404).json({ error: "Inventory Item not found" });
+    }
+
+    res.status(200).json(inventory);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {
