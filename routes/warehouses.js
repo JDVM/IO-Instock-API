@@ -7,6 +7,8 @@ router.use(express.json());
 require("dotenv").config();
 const PORT = process.env.PORT || 8080;
 
+const { isValidEmail, isValidPhoneNumber } = require("../utils/isValid");
+
 router.get("/", async (_req, res) => {
   try {
     const warehouses = await knex("warehouses");
@@ -15,6 +17,66 @@ router.get("/", async (_req, res) => {
   } catch (error) {
     console.error("Error retrieving warehouses", error);
     res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+router.post("/", async (req, res) => {
+  try {
+    const {
+      warehouse_name,
+      address,
+      city,
+      country,
+      contact_name,
+      contact_position,
+      contact_phone,
+      contact_email,
+    } = req.body;
+
+    if (
+      !warehouse_name ||
+      !address ||
+      !city ||
+      !country ||
+      !contact_name ||
+      !contact_position ||
+      !contact_phone ||
+      !contact_email
+    ) {
+      return res.status(400).json({ error: "All fields are required!" });
+    } else if (
+      !isValidEmail(contact_email) ||
+      !isValidPhoneNumber(contact_phone)
+    ) {
+      return res
+        .status(400)
+        .json({ error: "Invalid email address or phone number!" });
+    } else {
+      const [newWarehouseId] = await knex("warehouses").insert({
+        warehouse_name,
+        address,
+        city,
+        country,
+        contact_name,
+        contact_position,
+        contact_phone,
+        contact_email,
+      });
+      res.status(201).json({
+        id: newWarehouseId,
+        warehouse_name: warehouse_name,
+        address: address,
+        city: city,
+        country: country,
+        contact_name: contact_name,
+        contact_position: contact_position,
+        contact_phone: contact_phone,
+        contact_email: contact_email,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
