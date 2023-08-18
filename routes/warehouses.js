@@ -47,23 +47,7 @@ router.put("/:id", async (req, res) => {
     });
   }
   try {
-    const knexapp = knex({
-      client: "mysql2",
-      connection: {
-        database: process.env.DB_LOCAL_DBNAME,
-        user: process.env.DB_LOCAL_USER,
-        password: process.env.DB_LOCAL_PASSWORD,
-      },
-      migrations: {
-        tableName: "knex_migrations",
-        directory: "./DB_Setup/migrations",
-      },
-      seeds: {
-        directory: "./DB_Setup/seeds",
-      },
-    });
-
-    const updatedRows = await knexapp("warehouses").where({ id }).update({
+    const updatedRows = await knex("warehouses").where({ id }).update({
       warehouse_name,
       address,
       city,
@@ -78,7 +62,7 @@ router.put("/:id", async (req, res) => {
       return res.status(404).json({ message: "Warehouse ID not found." });
     }
 
-    const updatedWarehouse = await knexapp("warehouses").where({ id }).first();
+    const updatedWarehouse = await knex("warehouses").where({ id }).first();
     return res.status(200).json(updatedWarehouse);
   } catch (error) {
     console.error(error);
