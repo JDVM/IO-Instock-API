@@ -9,10 +9,7 @@ router.use(express.json());
 require("dotenv").config();
 const PORT = process.env.PORT || 8080;
 
-router.get("/", async (req, res) => {
-  console.log(req.body);
-  res.status(200).json({ message: "This is inventories!" });
-});
+
 
 router.post("/", async (req, res) => {
   try {
@@ -56,6 +53,27 @@ router.post("/", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+router.get("/", async (_req, res) => {
+  try {
+    const inventoryList = await knex
+      .select(
+        "inventories.id as id",
+        "warehouses.warehouse_name as warehouse_name",
+        "inventories.item_name as item_name",
+        "inventories.description as description",
+        "inventories.category as category",
+        "inventories.status as status",
+        "inventories.quantity as quantity"
+      )
+      .from("inventories")
+      .join("warehouses", "inventories.warehouse_id", "=", "warehouses.id");
+
+    res.status(200).json(inventoryList);
+  } catch (error) {
+    console.error("Error retrieving inventories", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
