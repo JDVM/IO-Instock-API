@@ -116,16 +116,24 @@ router.delete("/:id", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
+  console.log()
   try {
     const { warehouse_id, item_name, description, category, status, quantity } = req.body;
-    const inventory = await knex("inventories")
-      .where("id", id)
-      .first();
-        if (!inventory) {
-          return res.status(404).json({
-            error: "Inventory ID not found",
-          });
-        }
+    // const inventory = await knex("inventories")
+    //   .where("id", id)
+    //   .first();
+    //     if (!inventory) {
+    //       return res.status(404).json({
+    //         error: "Inventory ID not found",
+    //       });
+    //     }
+    console.log(warehouse_id)
+    console.log(item_name)
+    console.log(description)
+    console.log(category)
+    console.log()
+    console.log(quantity)
+
         
     if (
       !warehouse_id ||
@@ -133,7 +141,7 @@ router.put("/:id", async (req, res) => {
       !description ||
       !category ||
       !status ||
-      !quantity
+      !(quantity >= 0)
     ) {
       return res.status(400).json({
         error: "All fields are required!",
